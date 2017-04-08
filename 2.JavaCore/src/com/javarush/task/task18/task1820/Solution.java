@@ -15,22 +15,16 @@ public class Solution {
         FileInputStream fi = new FileInputStream(ff);
         FileOutputStream fo = new FileOutputStream(sf);
         StringBuffer sb = new StringBuffer();
-        String s = null;
-        while ((s = fi.readLine()) != null) {
-            double numD = Double.parseDouble(s);
-            int numI = (int)numD;
-            int znak = 1;
-            if (numD < 0) {
-                znak = -1;
-            }
-            if (numD % numI * znak >= 0.5) {
-                int num = numI + znak;
-                sb.append(num + " ");
-            } else {
-                sb.append(numI + " ");
-            }
+        while (fi.available() > 0) {
+            sb.append((char)fi.read());
         }
-        fo.write(sb.toString().getBytes());
+        String[] ch = sb.toString().split(" ");
+        for (int i = 0; i < ch.length; i++) {
+            System.out.println(ch[i]);
+            int numI = Math.round(Float.parseFloat(ch[i]));
+            fo.write(Integer.toString(numI).getBytes());
+            fo.write(32);
+        }
         fi.close();
         fo.close();
         reader.close();
