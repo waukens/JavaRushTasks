@@ -1,12 +1,9 @@
 package com.javarush.task.task18.task1823;
 
 import javax.print.DocFlavor;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 /* 
@@ -29,13 +26,46 @@ public class Solution {
             }
         }
         reader.close();
+        for (String name : fileNames) {
+            new ReadThread(name).start();
+        }
+        for (String key : resultMap.keySet()) {
+            System.out.println(key + " " + resultMap.get(key));
+        }
 
     }
 
     public static class ReadThread extends Thread {
+        private String fileN;
         public ReadThread(String fileName) {
-            //implement constructor body
+            super(fileName);
+            fileN = fileName;
         }
-        // implement file reading here - реализуйте чтение из файла тут
+        public void run() {
+            try {
+                FileInputStream fi = new FileInputStream(fileN);
+                int[] arr = new int[256];
+                while (fi.available() > 0) {
+                    int i = fi.read();
+                    arr[i] = arr[i] + 1;
+                }
+                fi.close();
+                int max = Integer.MIN_VALUE;
+                int ind = 0;
+                for (int i = 0; i < arr.length; i++) {
+                    if (arr[i]  > max) {
+                        max = arr[i];
+                        ind = i;
+                    }
+                }
+                synchronized (resultMap) {
+                    resultMap.put(fileN, ind);
+                }
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+
+            }
+        }
     }
 }
