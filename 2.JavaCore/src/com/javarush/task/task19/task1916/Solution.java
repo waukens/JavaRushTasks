@@ -34,6 +34,8 @@ public class Solution {
         while (secondBR.ready()) {
             secondArray.add(secondBR.readLine());
         }
+        firstFileReader.close();
+        secondFileReader.close();
 
         for (String s : firstArray) {
             String firstValueToCheck = null;
@@ -51,13 +53,13 @@ public class Solution {
                 lines.add(new LineItem(Type.ADDED, firstValueToCheck));
                 lines.add(new LineItem(Type.SAME, s));
                 secondArray.remove(0);
-                secondArray.remove(1);
+                secondArray.remove(0);
             } else {
                 lines.add(new LineItem(Type.REMOVED, s));
             }
         }
-        for (LineItem l : lines) {
-            System.out.println(l.type + " " + l.line);
+        for (String s : secondArray) {
+            lines.add(new LineItem(Type.ADDED, s));
         }
     }
 
