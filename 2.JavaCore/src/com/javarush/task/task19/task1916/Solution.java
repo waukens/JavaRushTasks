@@ -1,6 +1,7 @@
 package com.javarush.task.task19.task1916;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,47 @@ public class Solution {
         String firstFileName = reader.readLine();
         String secondFileName = reader.readLine();
         reader.close();
+        FileReader firstFileReader = new FileReader(firstFileName);
+        BufferedReader firstBR = new BufferedReader(firstFileReader);
+
+        FileReader secondFileReader = new FileReader(secondFileName);
+        BufferedReader secondBR = new BufferedReader(secondFileReader);
+
+        ArrayList<String> firstArray = new ArrayList<>();
+        ArrayList<String> secondArray = new ArrayList<>();
+
+        while (firstBR.ready()) {
+            firstArray.add(firstBR.readLine());
+        }
+
+        while (secondBR.ready()) {
+            secondArray.add(secondBR.readLine());
+        }
+
+        for (String s : firstArray) {
+            String firstValueToCheck = null;
+            String secondValueToCheck = null;
+            if (secondArray.size() == 1) {
+                firstValueToCheck = secondArray.get(0);
+            } else if (secondArray.size() > 1) {
+                firstValueToCheck = secondArray.get(0);
+                secondValueToCheck = secondArray.get(1);
+            }
+            if (s.equals(firstValueToCheck)) {
+                lines.add(new LineItem(Type.SAME, s));
+                secondArray.remove(0);
+            } else if (s.equals(secondValueToCheck)) {
+                lines.add(new LineItem(Type.ADDED, firstValueToCheck));
+                lines.add(new LineItem(Type.SAME, s));
+                secondArray.remove(0);
+                secondArray.remove(1);
+            } else {
+                lines.add(new LineItem(Type.REMOVED, s));
+            }
+        }
+        for (LineItem l : lines) {
+            System.out.println(l.type + " " + l.line);
+        }
     }
 
 
