@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/* 
+/*
 Отслеживаем изменения
 */
 
@@ -80,3 +80,4 @@ public class Solution {
         }
     }
 }
+
