@@ -22,7 +22,7 @@ public class Solution {
         }
         String line = sb.toString();
         String tag = args[0];
-        String patLine = "[<"+tag+".*>]"+"[<"+tag+".*>]?[.*][</"+tag+">]"+"[</"+tag+">]?";
+        String patLine = "(<" + tag + ".*>).*(<" + tag + ".*>)?.*(</" + tag + ">)?.*(</" + tag + ">)";
         Pattern p = Pattern.compile(patLine);
         Matcher match = p.matcher(line);
         while (match.find()) {
