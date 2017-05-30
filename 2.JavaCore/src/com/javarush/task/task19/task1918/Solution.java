@@ -23,14 +23,13 @@ public class Solution {
         String line = sb.toString();
         System.out.println(line);
         String tag = args[0];
-        String patLine = "(<" + tag + ">)(<"+tag+">)?(\r\n)?(</" + tag + ">)(.*(</" + tag + ">))?";
+        String patLine = "<" + tag + ".*[^/]>(<[^/]" + tag + ">)?[ a-zA-Z]*</" + tag + ">(</" + tag + ">)?";
         System.out.println(patLine);
         Pattern p = Pattern.compile(patLine);
         Matcher match = p.matcher(line);
         System.out.println("Answer");
         while (match.find()) {
             System.out.println(match.group());
-            System.out.println("group size" + match.group().length());
         }
     }
 }
