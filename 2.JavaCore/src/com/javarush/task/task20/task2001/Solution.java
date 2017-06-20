@@ -76,12 +76,25 @@ public class Solution {
 
         public void save(OutputStream outputStream) throws Exception {
             //implement this method - реализуйте этот метод
-            outputStream.write(name.);
+            outputStream.write(name.getBytes());
+            outputStream.write("\n".getBytes());
+            for (Asset as : assets) {
+                outputStream.write(as.getName().getBytes());
+                outputStream.write("\n".getBytes());
+            }
+            outputStream.flush();
 
         }
 
         public void load(InputStream inputStream) throws Exception {
             //implement this method - реализуйте этот метод
+            BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
+            if (bf.ready())
+                name = bf.readLine();
+            while (bf.ready()) {
+                assets.add(new Asset(bf.readLine()));
+            }
+
         }
     }
 }
