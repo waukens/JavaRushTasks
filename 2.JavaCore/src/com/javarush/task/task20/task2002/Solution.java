@@ -13,7 +13,7 @@ public class Solution {
         //you can find your_file_name.tmp in your TMP directory or fix outputStream/inputStream according to your real file location
         //вы можете найти your_file_name.tmp в папке TMP или исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("tmp", ".txt", new File("C:/Intel/"));
+            File your_file_name = File.createTempFile("tmp_file","");
             OutputStream outputStream = new FileOutputStream(your_file_name);
             InputStream inputStream = new FileInputStream(your_file_name);
 
@@ -35,15 +35,17 @@ public class Solution {
                 System.out.println("yes");
             else
                 System.out.println("false");
+            System.out.println(javaRush.hashCode());
+            System.out.println(loadedObject.hashCode());
             //check here that javaRush object equals to loadedObject object - проверьте тут, что javaRush и loadedObject равны
             outputStream.close();
             inputStream.close();
 
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("Oops, something wrong with my file");
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("Oops, something wrong with save/load method");
         }
     }
@@ -75,8 +77,14 @@ public class Solution {
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             while (br.ready()) {
                 User tempUser = new User();
-                tempUser.setFirstName(br.readLine());
-                tempUser.setLastName(br.readLine());
+                String firstName = br.readLine();
+                if (!firstName.equals("null")) {
+                    tempUser.setFirstName(firstName);
+                }
+                String lastName = br.readLine();
+                if (!lastName.equals("null")) {
+                    tempUser.setLastName(lastName);
+                }
                 String date = br.readLine();
                 if (!date.equals("null")) {
                     tempUser.setBirthDate(new Date(Long.parseLong(date)));
@@ -84,18 +92,13 @@ public class Solution {
                 String count = br.readLine();
                 if (!count.equals("null")) {
                     tempUser.setCountry(User.Country.valueOf(count));
+
                 }
-                String sex = br.readLine();
-                if (sex.equals("false")) {
-                    tempUser.setMale(false);
-                }
-                else {
-                        tempUser.setMale(false);
-                }
+                tempUser.setMale(Boolean.parseBoolean(br.readLine()));
                 users.add(tempUser);
 
             }
-            br.close();
+            //br.close();
         }
 
         @Override
