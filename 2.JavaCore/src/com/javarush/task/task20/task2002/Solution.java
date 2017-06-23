@@ -22,7 +22,6 @@ public class Solution {
             tempUser.setFirstName("Andry");
             tempUser.setBirthDate(new Date());
             tempUser.setCountry(User.Country.RUSSIA);
-
             javaRush.users.add(tempUser);
             //initialize users field for the javaRush object here - инициализируйте поле users для объекта javaRush тут
             javaRush.save(outputStream);
