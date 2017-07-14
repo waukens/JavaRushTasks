@@ -25,13 +25,15 @@ public class Solution {
        reader.close();
        String[] words = sb.toString().split(" ");
        for (int i = 0; i < words.length - 1; i++) {
-           for (int j = i +1; j < words.length; j++) {
+           for (int j = i + 1; j < words.length; j++) {
                String reverse = new StringBuilder(words[j]).reverse().toString();
                if (words[i].equals(reverse)) {
                    Pair p = new Pair();
                    p.first = words[i];
                    p.second = words[j];
                    result.add(p);
+                   words[j] = Integer.toString(j);
+                   break;
                }
            }
        }
@@ -70,7 +72,7 @@ public class Solution {
             return  first == null && second == null ? "" :
                     first == null && second != null ? second :
                     second == null && first != null ? first :
-                    first.compareTo(second) < 0 ? first + " " + second : second + " " + first;
+                    first.compareTo(second) < 0 ? second + " " + first : first + " " + second;
 
         }
     }
