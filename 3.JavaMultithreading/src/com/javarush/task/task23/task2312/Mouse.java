@@ -1,8 +1,5 @@
 package com.javarush.task.task23.task2312;
 
-/**
- * Created by noname on 17.07.17.
- */
 public class Mouse {
     private int x;
     private int y;
@@ -13,7 +10,7 @@ public class Mouse {
     }
 
     public int getX() {
-        return this.x;
+        return x;
     }
 
     public int getY() {
