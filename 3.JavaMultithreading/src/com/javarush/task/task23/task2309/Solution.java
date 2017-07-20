@@ -10,17 +10,17 @@ import java.util.List;
 public class Solution {
 
     public List<User> getUsers() {
-        return new AbstractDbSelectExecutor()
+        return new AbstractDbSelectExecutor<User>()
         {
             @Override
             public String getQuery() {
-                return "SELECT * FROM LOCATION";
+                return "SELECT * FROM USER";
             }
         }.execute();
     }
 
     public List<Location> getLocations() {
-        return new AbstractDbSelectExecutor()
+        return new AbstractDbSelectExecutor<Location>()
         {
             @Override
             public String getQuery() {
@@ -30,31 +30,31 @@ public class Solution {
     }
 
     public List<Server> getServers() {
-        return new AbstractDbSelectExecutor()
+        return new AbstractDbSelectExecutor<Server>()
         {
             @Override
             public String getQuery() {
-                return "SELECT * FROM LOCATION";
+                return "SELECT * FROM SERVER";
             }
         }.execute();
     }
 
     public List<Subject> getSubjects() {
-        return new AbstractDbSelectExecutor()
+        return new AbstractDbSelectExecutor<Subject>()
         {
             @Override
             public String getQuery() {
-                return "SELECT * FROM LOCATION";
+                return "SELECT * FROM SUBJECT";
             }
         }.execute();
     }
 
     public List<Subscription> getSubscriptions() {
-        return new AbstractDbSelectExecutor()
+        return new AbstractDbSelectExecutor<Subscription>()
         {
             @Override
             public String getQuery() {
-                return "SELECT * FROM LOCATION";
+                return "SELECT * FROM SUBSCRIPTION";
             }
         }.execute();
     }
