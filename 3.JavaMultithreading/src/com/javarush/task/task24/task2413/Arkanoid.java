@@ -8,6 +8,7 @@ public class Arkanoid {
     private Ball ball;
     private Stand stand;
     private List<Brick> bricks;
+    private boolean isGameOver;
     static Arkanoid game;
 
     public Arkanoid(int width, int height) {
@@ -58,7 +59,18 @@ public class Arkanoid {
 
     void run() {}
 
-    void move() {}
+    void move() {
+        ball.move();
+        stand.move();
+    }
+
+    void draw(Canvas canvas) {
+        ball.draw(canvas);
+        stand.draw(canvas);
+        for (Brick brick : bricks) {
+            brick.draw(canvas);
+        }
+    }
 
     public static void main(String[] args) {
 
