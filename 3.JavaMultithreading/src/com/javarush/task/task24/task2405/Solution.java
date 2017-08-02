@@ -9,7 +9,6 @@ public class Solution implements Action {
     private int param;
 
     private Action solutionAction = new Action() {
-        FirstClass firstClass;
         SecondClass secondClass;
         //!!!!! Changes can be here
         //!!!!! Изменения могут быть тут
