@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 public class Connection implements Closeable {
     private final Socket socket;
@@ -30,7 +31,9 @@ public class Connection implements Closeable {
         }
     }
 
-    public  SocketAddress getRemoteSocketAddress(), в
+    public SocketAddress getRemoteSocketAddress() {
+        return socket.getRemoteSocketAddress();
+    }
 
     @Override
     public void close() throws IOException {
