@@ -97,8 +97,37 @@ public class Client {
         }
 
         protected void clientHandshake() throws IOException, ClassNotFoundException {
-            while (true) {
+            boolean check = true;
+            while (check) {
                 Message replay = connection.receive();
+                switch (replay.getType()) {
+                    case NAME_REQUEST : {
+                        String userName = getUserName();
+                        connection.send(new Message(MessageType.USER_NAME, userName));
+                        break;
+                    }
+                    case NAME_ACCEPTED: {
+                        notifyConnectionStatusChanged(true);
+                        check = false;
+                        break;
+                    }
+                    default: throw new IOException("Unexpected MessageType");
+                }
+            }
+        }
+
+        protected void clientMainLoop() throws IOException, ClassNotFoundException {
+            while (true) {
+                Message serverReplay = connection.receive();
+                switch (serverReplay.getType()) {
+                    case TEXT: processIncomingMessage(serverReplay.getData());
+                               break;
+                    case USER_ADDED: informAboutAddingNewUser(serverReplay.getData());
+                                     break;
+                    case USER_REMOVED: informAboutDeletingNewUser(serverReplay.getData());
+                                       break;
+                    default: throw new IOException("Unexpected MessageType");
+                }
             }
         }
 
