@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class ClientGuiModel {
-    private final Set allUserNames = new TreeSet();
+    private final Set<String> allUserNames = new TreeSet();
     private String newMessage;
 
     public String getNewMessage() {
@@ -16,7 +16,7 @@ public class ClientGuiModel {
         this.newMessage = newMessage;
     }
 
-    public Set getAllUserNames() {
+    public Set<String> getAllUserNames() {
         return Collections.unmodifiableSet(allUserNames);
     }
 
