@@ -1,5 +1,8 @@
 package com.javarush.task.task31.task3110;
 
+import com.javarush.task.task31.task3110.command.Command;
+import com.javarush.task.task31.task3110.command.ExitCommand;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
@@ -13,6 +16,12 @@ public class Archiver {
             System.out.print("Enter path to archiver: ");
             zFm.createZip(Paths.get(reader.readLine()));
             reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Command exitCommand = new ExitCommand();
+        try {
+            exitCommand.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
