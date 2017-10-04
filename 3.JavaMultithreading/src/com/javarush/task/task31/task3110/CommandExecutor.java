@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandExecutor {
-
     private static final Map<Operation, Command> allKnownCommandsMap = new HashMap<>();
 
     static {
