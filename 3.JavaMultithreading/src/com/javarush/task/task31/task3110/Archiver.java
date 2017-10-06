@@ -3,46 +3,11 @@ package com.javarush.task.task31.task3110;
 import com.javarush.task.task31.task3110.exception.WrongZipFileException;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Archiver {
-    public static Operation askOperation() throws IOException {
-        Map<Integer, String> listOfOperations = new HashMap<>();
-        listOfOperations.put(0, "упаковать файлы в архив");
-        listOfOperations.put(1, "добавить файл в архив");
-        listOfOperations.put(2, "удалить файл из архива");
-        listOfOperations.put(3, "распаковать архив");
-        listOfOperations.put(4, "просмотреть содержимое архива");
-        listOfOperations.put(5, "выход");
-        ConsoleHelper.writeMessage("Выберите операцию:");
-        for (int key : listOfOperations.keySet()) {
-            ConsoleHelper.writeMessage(String.format("%s - %s", key, listOfOperations.get(key)));
-        }
-        int numOfOperation = ConsoleHelper.readInt();
+    public static void main(String[] args) throws IOException {
+
         Operation operation = null;
-        for (Operation oper : Operation.values()) {
-            if (oper.ordinal() == numOfOperation) {
-                operation = oper;
-            }
-        }
-        return operation;
-    }
-
-    public static void main(String[] args) {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Operation operation = null;
-//        System.out.print("Enter file/folder's path to zip:");
-//        try {
-//            ZipFileManager zFm = new ZipFileManager(Paths.get(reader.readLine()));
-//            System.out.print("Enter path to archiver: ");
-//            zFm.createZip(Paths.get(reader.readLine()));
-//            reader.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
         do {
             try {
                 operation = askOperation();
@@ -54,5 +19,19 @@ public class Archiver {
             }
 
         } while (operation != Operation.EXIT);
+    }
+
+
+    public static Operation askOperation() throws IOException {
+        ConsoleHelper.writeMessage("");
+        ConsoleHelper.writeMessage("Выберите операцию:");
+        ConsoleHelper.writeMessage(String.format("\t %d - упаковать файлы в архив", Operation.CREATE.ordinal()));
+        ConsoleHelper.writeMessage(String.format("\t %d - добавить файл в архив", Operation.ADD.ordinal()));
+        ConsoleHelper.writeMessage(String.format("\t %d - удалить файл из архива", Operation.REMOVE.ordinal()));
+        ConsoleHelper.writeMessage(String.format("\t %d - распаковать архив", Operation.EXTRACT.ordinal()));
+        ConsoleHelper.writeMessage(String.format("\t %d - просмотреть содержимое архива", Operation.CONTENT.ordinal()));
+        ConsoleHelper.writeMessage(String.format("\t %d - выход", Operation.EXIT.ordinal()));
+
+        return Operation.values()[ConsoleHelper.readInt()];
     }
 }
