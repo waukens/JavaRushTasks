@@ -4,13 +4,12 @@ import com.javarush.task.task31.task3110.exception.PathIsNotFoundException;
 import com.javarush.task.task31.task3110.exception.WrongZipFileException;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -60,25 +59,60 @@ public class ZipFileManager {
         if (!Files.isRegularFile(zipFile)) {
             throw new WrongZipFileException();
         }
-        if (Files.notExists(outputFolder)) {
-            Files.createDirectories(outputFolder);
+
+        try (ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile))) {
+            // Создаем директорию вывода, если она не существует
+            if (Files.notExists(outputFolder))
+                Files.createDirectories(outputFolder);
+
+            // Проходимся по содержимому zip потока (файла)
+            ZipEntry zipEntry = zipInputStream.getNextEntry();
+
+            while (zipEntry != null) {
+                String fileName = zipEntry.getName();
+                Path fileFullName = outputFolder.resolve(fileName);
+
+                // Создаем необходимые директории
+                Path parent = fileFullName.getParent();
+                if (Files.notExists(parent))
+                    Files.createDirectories(parent);
+
+                try (OutputStream outputStream = Files.newOutputStream(fileFullName)) {
+                    copyData(zipInputStream, outputStream);
+                }
+                zipEntry = zipInputStream.getNextEntry();
+            }
         }
+    }
+
+    public void removeFiles(List<Path> pathList) throws Exception {
+        // Проверяем существует ли zip файл
+        if (!Files.isRegularFile(zipFile)) {
+            throw new WrongZipFileException();
+        }
+
+        // Создаем воеменный файл
+        Path tempFile = Files.createTempFile(zipFile.getParent(), "temp", "zip");
+
         try (
-            ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile))
+             ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile));
+             ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(tempFile))
         ) {
+             // Проходимся по содержимому zip потока (файла)
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-                String fileName = zipEntry.getName();
-                Path fullName = outputFolder.resolve(fileName);
-
-                if (!zipEntry.isDirectory()) {
-                    Files.createDirectories(fullName.getParent());
-                    OutputStream fileOutputStream = Files.newOutputStream(fullName);
-                    copyData(zipInputStream, fileOutputStream);
-                    fileOutputStream.close();
+                if (pathList.contains(zipEntry.getName())) {
+                    ConsoleHelper.writeMessage("Удален файл :" + zipEntry.getName());
+                } else {
+                    copyData(zipInputStream, zipOutputStream);
                 }
             }
         }
+        Files.move(tempFile, zipFile);
+    }
+
+    public void removeFile(Path path) throws Exception {
+        removeFiles(Collections.singletonList(path));
     }
 
     public List<FileProperties> getFilesList() throws Exception {
