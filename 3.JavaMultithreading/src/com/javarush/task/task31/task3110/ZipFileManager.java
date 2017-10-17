@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -92,7 +94,7 @@ public class ZipFileManager {
         }
 
         // Создаем воеменный файл
-        Path tempFile = Files.createTempFile(zipFile.getParent(), "temp", "zip");
+        Path tempFile = Files.createTempFile("temp", ".zip");
 
         try (
              ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile));
@@ -101,14 +103,16 @@ public class ZipFileManager {
              // Проходимся по содержимому zip потока (файла)
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-                if (pathList.contains(zipEntry.getName())) {
+                Path nameToCheck = Paths.get(zipEntry.getName());
+                if (pathList.contains(nameToCheck)) {
                     ConsoleHelper.writeMessage("Удален файл :" + zipEntry.getName());
                 } else {
+                    zipOutputStream.putNextEntry(new ZipEntry(zipEntry.getName()));
                     copyData(zipInputStream, zipOutputStream);
                 }
             }
         }
-        Files.move(tempFile, zipFile);
+        Files.move(tempFile, zipFile, StandardCopyOption.REPLACE_EXISTING);
     }
 
     public void removeFile(Path path) throws Exception {
