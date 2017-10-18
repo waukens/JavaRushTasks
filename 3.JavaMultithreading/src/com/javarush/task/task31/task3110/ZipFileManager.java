@@ -142,13 +142,13 @@ public class ZipFileManager {
             ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(zipFile));
             ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(tempZipFile))
         ) {
-            List<String> listOfFiles = new ArrayList<>();
+            List<Path> listOfFiles = new ArrayList<>();
             ZipEntry zipEntry;
 
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                 zipOutputStream.putNextEntry(new ZipEntry(zipEntry.getName()));
                 copyData(zipInputStream, zipOutputStream);
-                listOfFiles.add(zipEntry.getName());
+                listOfFiles.add(Paths.get(zipEntry.getName()));
 
                 zipInputStream.closeEntry();
                 zipOutputStream.closeEntry();
@@ -158,7 +158,7 @@ public class ZipFileManager {
                 if (!Files.isRegularFile(path) || Files.notExists(path)) {
                     throw new PathIsNotFoundException();
                 }
-                if (listOfFiles.contains(path.toString())) {
+                if (listOfFiles.contains(path.getFileName())) {
                     ConsoleHelper.writeMessage("Файл уже есть в архиве");
                 } else {
                     ConsoleHelper.writeMessage(String.format("Файл %s добавлен в архив", path.toString()));
