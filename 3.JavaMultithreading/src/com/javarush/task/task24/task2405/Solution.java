@@ -60,10 +60,10 @@ public class Solution implements Action {
      * 1
      * class FirstClass, method someAction
      * class SecondClass, method someAction
-     * Specific action for anonymous SecondClass, param = 0
+     * Specific actions for anonymous SecondClass, param = 0
      * Count of created Action objects is 2
      * class SecondClass, method someAction
-     * Specific action for anonymous SecondClass, param = -1
+     * Specific actions for anonymous SecondClass, param = -1
      * Count of created Action objects is 3
      */
     public static void main(String[] args) {
