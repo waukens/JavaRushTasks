@@ -90,7 +90,12 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void selectedTabChanged() {
-
+        if (tabbedPane.getSelectedIndex() == 0) {
+            controller.setPlainText(plainTextPane.getText());
+        } else {
+            plainTextPane.setText(controller.getPlainText());
+        }
+        resetUndo();
     }
 
     public boolean canUndo() {
@@ -143,6 +148,7 @@ public class View extends JFrame implements ActionListener {
     public void showAbout() {
         JOptionPane.showMessageDialog(null,"Version 1.0", "About", JOptionPane.INFORMATION_MESSAGE);
     }
+
 
     public void exit() {
         controller.exit();
