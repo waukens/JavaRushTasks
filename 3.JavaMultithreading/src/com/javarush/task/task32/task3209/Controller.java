@@ -1,13 +1,11 @@
 package com.javarush.task.task32.task3209;
 
-import javax.swing.event.DocumentListener;
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
+import java.nio.file.Files;
 
 public class Controller {
     private View view;
@@ -19,7 +17,7 @@ public class Controller {
     }
 
     public void init() {
-
+        createNewDocument();
     }
 
     public HTMLDocument getDocument() {
@@ -60,10 +58,15 @@ public class Controller {
     }
 
     public void createNewDocument() {
-
+        view.selectHtmlTab();
+        resetDocument();
+        view.setTitle("HTML редактор");
+        view.resetUndo();
+        currentFile = null;
     }
 
     public void openDocument() {
+
 
     }
 
@@ -72,8 +75,25 @@ public class Controller {
     }
 
     public void saveDocumentAs() {
-
+        view.selectHtmlTab();
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setFileFilter(new HTMLFileFilter());
+        jFileChooser.setDialogTitle("Save File");
+        int returnVal = jFileChooser.showSaveDialog(view);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            currentFile = jFileChooser.getSelectedFile();
+            view.setTitle(currentFile.getName());
+            try {
+                FileWriter fileWriter = new FileWriter(currentFile);
+                new HTMLEditorKit().write(fileWriter, document, 0, document.getLength());
+            } catch (IOException e) {
+                ExceptionHandler.log(e);
+            } catch (BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+        }
     }
+
 
     public void exit() {
         System.exit(0);
