@@ -66,11 +66,48 @@ public class Controller {
     }
 
     public void openDocument() {
-
+        view.selectHtmlTab();
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setFileFilter(new HTMLFileFilter());
+        jFileChooser.setDialogTitle("Open File");
+        int returnValue = jFileChooser.showOpenDialog(view);
+        if (returnValue == jFileChooser.APPROVE_OPTION) {
+            currentFile = jFileChooser.getSelectedFile();
+            resetDocument();
+            view.setTitle(currentFile.getName());
+            try {
+                FileReader fileReader = new FileReader(currentFile);
+                new HTMLEditorKit().read(fileReader, document, 0);
+                view.resetUndo();
+            }
+            catch (IOException e) {
+                ExceptionHandler.log(e);
+            }
+            catch (BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+        }
 
     }
 
     public void saveDocument() {
+        if (currentFile != null) {
+            view.selectHtmlTab();
+            view.setTitle(currentFile.getName());
+            try {
+                FileWriter fileWriter = new FileWriter(currentFile);
+                new HTMLEditorKit().write(fileWriter, document, 0, document.getLength());
+            } catch (IOException e) {
+                ExceptionHandler.log(e);
+            } catch (BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+        }
+        else {
+            saveDocumentAs();
+        }
+
+
 
     }
 
