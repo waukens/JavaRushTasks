@@ -17,6 +17,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return dishes.equals("")? "" : String.format("Your order: [%s] of Tablet{number=%s}", dishes, tablet);
+        return dishes.equals("")? "" : String.format("Your order: %s of Tablet{number=%s}", dishes, tablet);
     }
 }

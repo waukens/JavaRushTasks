@@ -1,6 +1,8 @@
 package com.javarush.task.task27.task2712;
 
 
+import com.javarush.task.task27.task2712.kitchen.Cook;
+
 public class Restaurant {
     final int number;
 
@@ -9,6 +11,9 @@ public class Restaurant {
     }
 
     public static void main(String[] args) {
-        new Tablet(5).createOrder();
+        Cook amigo = new Cook("Amigo");
+        Tablet tablet = new Tablet(5);
+        tablet.addObserver(amigo);
+        tablet.createOrder();
     }
 }
