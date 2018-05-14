@@ -2,6 +2,7 @@ package com.javarush.task.task27.task2712;
 
 
 import com.javarush.task.task27.task2712.kitchen.Cook;
+import com.javarush.task.task27.task2712.kitchen.Order;
 import com.javarush.task.task27.task2712.kitchen.Waiter;
 
 public class Restaurant {
@@ -17,6 +18,6 @@ public class Restaurant {
         Waiter waiter = new Waiter();
         tablet.addObserver(amigo);
         amigo.addObserver(waiter);
-        tablet.createOrder();
+        Order order = tablet.createOrder();
     }
 }
