@@ -23,7 +23,11 @@ public class Tablet extends Observable {
                 this.setChanged();
                 this.notifyObservers(order);
                 AdvertisementManager advertisementManager = new AdvertisementManager(order.getTotalCookingTime() * 60);
-                advertisementManager.processVideos();
+                try {
+                    advertisementManager.processVideos();
+                } catch (RuntimeException e) {
+                    logger.log(Level.INFO, "No video is available for the order " + order);
+                }
             }
             return order;
         } catch (IOException e) {
